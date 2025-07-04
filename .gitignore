@@ -1,0 +1,17 @@
+#some passwords
+*.txt
+# Python virtual environment
+venv/
+env/
+
+# Python bytecode files
+__pycache__/
+*.pyc
+
+# Secret files
+.env
+credentials.json
+
+# IDE/Editor specific files
+.idea/
+.vscode/
