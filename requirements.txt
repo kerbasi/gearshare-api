@@ -1,0 +1,4 @@
+fastapi
+mangum
+pyodbc
+passlib[bcrypt]
