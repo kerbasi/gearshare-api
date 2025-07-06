@@ -3,6 +3,7 @@ import pyodbc
 from fastapi import FastAPI, HTTPException, status, Depends
 from pydantic import BaseModel
 from passlib.context import CryptContext
+from mangum import Mangum 
 
 # --- Configuration & Setup ---
 
@@ -17,11 +18,11 @@ DB_HOST = os.environ.get("DB_HOST", "your_rds_endpoint_here")
 DB_DATABASE = os.environ.get("DB_DATABASE", "gearshareios")
 DB_USER = os.environ.get("DB_USER", "admin")
 DB_PASSWORD = os.environ.get("DB_PASSWORD", "your_db_password_here")
-DRIVER = '{ODBC Driver 17 for SQL Server}' # Or the version you have installed
+DRIVER = '{ODBC Driver 18 for SQL Server}' # Or the version you have installed
 
 def get_db_connection():
     """Establishes and returns a database connection for MS SQL Server."""
-    conn_str = f'DRIVER={DRIVER};SERVER={DB_HOST};DATABASE={DB_DATABASE};UID={DB_USER};PWD={DB_PASSWORD}'
+    conn_str = f'DRIVER={DRIVER};SERVER={DB_HOST};DATABASE={DB_DATABASE};UID={DB_USER};PWD={DB_PASSWORD};Encrypt=yes;TrustServerCertificate=yes;'
     try:
         conn = pyodbc.connect(conn_str)
         yield conn
@@ -87,3 +88,4 @@ def login_user(form_data: UserLogin, db: pyodbc.Connection = Depends(get_db_conn
     finally:
         if 'cursor' in locals():
             cursor.close()
+handler = Mangum(app)
